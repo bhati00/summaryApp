@@ -2,8 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SummaryAppController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\UploadFileController;;
+use App\Http\Controllers\RawTextController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,14 +19,18 @@ Route::get('/', function () {
 });
 
 // Home page 
-Route::get('/dashboard', [SummaryAppController::class, 'index']);
+Route::get('/', [SummaryAppController::class, 'index']);
 
 Route::get('/checkdb',function(){
     return view('check_db_connection');
 });
 
-Route::get('add-blog-post-form', [PostController::class, 'index']);
-Route::post('store-form', [PostController::class, 'store']);
+// CRUD FOR raw text file 
+Route::get('add-raw-text', [RawTextController::class, 'index']);
+Route::post('store-raw-text', [RawTextController::class, 'store']);
+Route::get('files-list', [RawTextController::class, 'raw_text_files']);
+Route::get('view-raw-file/{file_id}', [RawTextController::class, 'view_raw_file']);
 
-Route::get('/uploadfile','UploadFileController@index');
-Route::post('/uploadfile','UploadFileController@showUploadFile');
+// generating insights from raw text 
+Route::get('generate-key-points/{file_id}',[SummaryAppController::class,'generate_key_points']);
+
